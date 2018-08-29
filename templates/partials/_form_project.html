@@ -1,0 +1,91 @@
+{% load staticfiles %}
+<form class="modal fade" method="post" id="project-add-modal" tabindex="-1" role="dialog" aria-labelledby="project-add-modal" aria-hidden="true">
+    {% csrf_token %}
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New Group</h5>
+                <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <!--end of modal head-->
+            <ul class="nav nav-tabs nav-fill">
+                <li class="nav-item">
+                    <a class="nav-link active" id="project-add-details-tab" data-toggle="tab"
+                       href="#project-add-details" role="tab" aria-controls="project-add-details" aria-selected="true">Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="project-add-members-tab" data-toggle="tab" href="#project-add-members"
+                       role="tab" aria-controls="project-add-members" aria-selected="false">Members</a>
+                </li>
+            </ul>
+            <div class="modal-body">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="project-add-details" role="tabpanel"
+                         aria-labelledby="project-add-details-tab">
+                        <h6>General Details</h6>
+                        <div class="form-group row align-items-center">
+                            <label class="col-3">Name</label>
+                            {{ group_form.name }}
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-3">Description</label>
+                            {{ group_form.description }}
+                        </div>
+
+                        <select name="owner" id="id_owner" class="invisible">
+                            <option value="{{ user.id }}" selected>{{ user.email }}</option>
+                        </select>
+                    </div>
+                    <div class="tab-pane fade" id="project-add-members" role="tabpanel" aria-labelledby="project-add-members-tab">
+                        <div class="users-manage" data-filter-list="form-group-users">
+
+                            <div class="input-group input-group-round">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="material-icons">filter_list</i>
+                                    </span>
+                                </div>
+                                <input type="search" class="form-control filter-list-input" placeholder="Filter members" aria-label="Filter Members" aria-describedby="filter-members">
+                            </div>
+
+                            <div class="form-group-users">
+                                {% for id, user in group_form.users.field.choices %}
+
+                                    <div class="custom-control custom-checkbox">
+                                        {% if group_form.users %}
+                                            {% if user in group_form.users %}
+                                                <input type="checkbox" class="custom-control-input" id="user-manage-{{ id }}" value="{{ id }}" name="users" checked>
+                                            {% else %}
+                                                <input type="checkbox" class="custom-control-input" id="user-manage-{{ id }}" value="{{ id }}" name="users">
+                                            {% endif %}
+
+                                        {% else %}
+                                            <input type="checkbox" class="custom-control-input" id="user-manage-{{ id }}" value="{{ id }}" name="users">
+                                        {% endif %}
+
+                                        <label class="custom-control-label" for="user-manage-{{ id }}">
+                                            <div class="d-flex align-items-center">
+                                                <img alt="Claire Connors" src="{{ user.get_avatar_url }}" class="avatar mr-2" />
+                                                <span class="h6 mb-0" data-filter-by="text">{{ user.full_name }}</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                {% endfor %}
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end of modal body-->
+            <div class="modal-footer">
+                <button role="button" class="btn btn-primary" type="submit">
+                    Create Project
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,28 @@
+<div class="navbar bg-white breadcrumb-bar">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            {% if request.path == '/dashboard' %}
+                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+            {% elif request.path == '/groups' %}
+                <li class="breadcrumb-item active" aria-current="page">Groups</li>
+            {% elif request.path == '/users' %}
+                <li class="breadcrumb-item active" aria-current="page">Users</li>
+            {% elif request.path == '/profile' %}
+                <li class="breadcrumb-item active" aria-current="page">Profile</li>
+            {% elif request.path == '/notes' %}
+                <li class="breadcrumb-item active" aria-current="page">Notes</li>
+            {% endif %}
+
+            {% if group %}
+                <li class="breadcrumb-item active" aria-current="page">{{ group.name }}</li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <a data-toggle="modal" data-target="#project-add-modal" href="">Edit</a>
+                </li>
+            {% endif %}
+{#            <li class="breadcrumb-item">#}
+{#                <a href="index.html">Overview</a>#}
+{#            </li>#}
+
+        </ol>
+    </nav>
+</div>

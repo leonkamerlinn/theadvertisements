@@ -1,0 +1,16 @@
+{
+  "name": "test_project",
+  "version": "1.0.0",
+  "description": "chat application",
+  "main": "node server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Leon Kamerlin",
+  "license": "ISC",
+  "dependencies": {
+    "python-shell": "^0.5.0",
+    "shelljs": "^0.8.2",
+    "socket.io": "^2.1.1"
+  }
+}

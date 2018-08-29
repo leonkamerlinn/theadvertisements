@@ -1,0 +1,55 @@
+{% load staticfiles %}
+<div class="content-list" data-filter-list="content-list-body">
+    <div class="row content-list-head">
+        <div class="col-auto">
+            <h3>Notes</h3>
+            <button class="btn btn-round" data-toggle="modal" data-target="#note-add-modal">
+                <i class="material-icons">add</i>
+            </button>
+        </div>
+        <form class="col-md-auto">
+            <div class="input-group input-group-round">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="material-icons">filter_list</i>
+                    </span>
+                </div>
+                <input type="search" class="form-control filter-list-input" placeholder="Filter notes" aria-label="Filter notes" aria-describedby="filter-notes">
+            </div>
+        </form>
+    </div>
+    <!--end of content list head-->
+    <div class="content-list-body">
+        {% for note in notes %}
+             <div class="card card-note">
+            <div class="card-header">
+                <div class="media align-items-center">
+                    <img alt="Peggy Brown" src="{{ user.get_avatar_url }}" class="avatar" data-toggle="tooltip" data-title="Peggy Brown" data-filter-by="alt" />
+                    <div class="media-body">
+                        <h6 class="mb-0" data-filter-by="text">{{ note.name }}</h6>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span data-filter-by="text">{{ note.get_date }}</span>
+                    <div class="ml-1 dropdown card-options">
+                        <button class="btn-options" type="button" id="note-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item text-danger" href="{% url 'delete_notes' id=note.id %}">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body" data-filter-by="text">
+                {{ note.description }}
+
+            </div>
+        </div>
+        {% endfor %}
+
+
+
+    </div>
+</div>
+</div>

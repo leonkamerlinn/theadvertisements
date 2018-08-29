@@ -1,0 +1,134 @@
+{% load staticfiles %}
+<div class="content-container">
+    <div class="chat-module" data-filter-list="chat-module-body">
+        <div class="chat-module-top">
+            <form>
+                <div class="input-group input-group-round">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="material-icons">search</i>
+                        </span>
+                    </div>
+                    <input type="search" class="form-control filter-list-input" placeholder="Search chat" aria-label="Search Chat" aria-describedby="search-chat">
+                </div>
+            </form>
+            <div class="chat-module-body">
+
+
+                {% for post in group.posts.all %}
+                    <div class="media chat-item mb-5">
+
+                        <img alt="Claire" src="{{ group.owner.get_avatar_url }}" class="avatar" />
+                        <div class="media-body">
+                            <div class="chat-item-title">
+                                <span class="chat-item-author" data-filter-by="text">{{ group.owner.first_name }}</span>
+                                <span data-filter-by="text">{{ group.get_date }}</span>
+                            </div>
+
+                            <div class="chat-item-body" data-filter-by="text">
+                                <p>{{ post.text }}</p>
+                                {% if post.file %}
+                                     <img src="/{{ post.file }}" alt="alt text" title="Thinking">
+                                {% endif %}
+
+                            </div>
+
+                             <form method="post" style="margin-left: 80%">
+                                 {% csrf_token %}
+                                 {% if post.pinned %}
+                                    <input type="checkbox" name="pinned" checked>
+                                 {% else %}
+                                    <input type="checkbox" name="pinned">
+                                 {% endif %}
+                                 <input type="hidden" name="post_id" value="{{ post.id }}">
+
+                                 <input class="btn-info" type="submit" value="Pin">
+                             </form>
+                        </div>
+                    </div>
+                    {% for replay in post.replays.all %}
+
+                        <div class="media chat-item ml-5" style="width: 50%">
+                            <img alt="{{ user.first_name }}" src="{{ group.owner.get_avatar_url }}" class="avatar" />
+                            <div class="media-body">
+                                <div class="chat-item-title">
+                                    <span class="chat-item-author" data-filter-by="text">{{ group.owner.first_name }}</span>
+                                    <span data-filter-by="text">{{ group.get_date }}</span>
+                                </div>
+
+                                <div class="chat-item-body" data-filter-by="text">
+                                    <p>{{ replay.text }}</p>
+                                    {% if replay.file %}
+                                        <img src="/{{ replay.file }}" alt="alt text" title="Thinking">
+                                    {% endif %}
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                    <form class="chat-form mb-3 mt-3 ml-5" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ replay_form.text }}
+                        <select name="subject" id="id_subject" class="invisible">
+                            <option value="{{ user.id }}" selected>{{ user.email }}</option>
+                        </select>
+                        <select name="post" id="id_post" class="invisible">
+                            <option value="{{ post.id }}" selected>{{ post.id }}</option>
+                        </select>
+
+                        <div class="chat-form-buttons">
+                            <div class="custom-file custom-file-naked">
+                                <input type="file" class="custom-file-input" id="customFile" name="file">
+                                <label class="custom-file-label" for="customFile">
+                                    <i class="material-icons">image</i>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-sm btn-block btn-primary" role="button" style="width: 30%" type="submit">Replay</button>
+                    </form>
+                {% endfor %}
+
+
+
+
+            </div>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} ml-5" role="alert" style="width: 40%">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="chat-module-bottom ml-5 mr-5">
+            <form class="chat-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ post_form.text }}
+                <select name="owner" id="id_owner" class="invisible">
+                    <option value="{{ user.id }}" selected>{{ user.email }}</option>
+                </select>
+                <select name="group" id="id_group" class="invisible">
+                    <option value="{{ group.id }}" selected>{{ group.id }}</option>
+                </select>
+
+                <div class="chat-form-buttons">
+                    <div class="custom-file custom-file-naked">
+                        <input type="file" class="custom-file-input" id="customFile" name="file">
+                        <label class="custom-file-label" for="customFile">
+                            <i class="material-icons">image</i>
+                        </label>
+                    </div>
+                </div>
+
+                {{ post_form.errors }}
+                <button class="btn btn btn-block btn-primary" style="width: 30%" role="button" type="submit">Post</button>
+            </form>
+        </div>
+    </div>
+
+</div>

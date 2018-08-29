@@ -1,0 +1,86 @@
+{% load staticfiles %}
+<div class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top">
+    <a class="navbar-brand" href="{% url 'dashboard' %}">
+        <img alt="Pipeline" src="{% static '/assets/img/logo.svg' %}" />
+    </a>
+    <div class="d-flex align-items-center">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="d-block d-lg-none ml-2">
+            <div class="dropdown">
+                <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img alt="Image" src="{% static '/assets/img/avatar-male-4.jpg' %}" class="avatar" />
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="nav-side-user.html" class="dropdown-item">Profile</a>
+                    <a href="utility-account-settings.html" class="dropdown-item">Account Settings</a>
+                    <a href="#" class="dropdown-item">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="collapse navbar-collapse flex-column" id="navbar-collapse">
+        <ul class="navbar-nav d-lg-block">
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'groups' %}">Groups</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'users' %}">Users</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'notes' %}">Notes</a>
+            </li>
+
+        </ul>
+        <hr>
+
+        <div>
+            <form>
+                <div class="input-group input-group-dark input-group-round">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="material-icons">search</i>
+                        </span>
+                    </div>
+                    <input type="search" class="form-control form-control-dark" placeholder="Search" aria-label="Search app" aria-describedby="search-app">
+                </div>
+            </form>
+            {% if user.role == 'a' %}
+                <div class="dropdown mt-2">
+                    <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="newContentButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Add New
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="newContentButton">
+                        <a class="dropdown-item" data-toggle="modal" data-target="#project-add-modal" href="">Group</a>
+                        <a class="dropdown-item" href="" data-toggle="modal" data-target="#note-add-modal">Note</a>
+                    </div>
+                </div>
+            {% endif %}
+
+
+        </div>
+    </div>
+    <div class="d-none d-lg-block">
+        <div class="dropup">
+            <a href="{% url 'user' id=user.id %}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img alt="Image" src="{{ user.get_avatar_url }}" class="avatar" />
+            </a>
+            <div class="dropdown-menu">
+                <a href="{% url 'profile' %}" class="dropdown-item">Profile</a>
+                <a href="{% url 'logout' %}" class="dropdown-item">Log Out</a>
+            </div>
+        </div>
+    </div>
+</div>

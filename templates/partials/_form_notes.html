@@ -1,0 +1,33 @@
+<form class="modal fade" id="note-add-modal" tabindex="-1" role="dialog" aria-labelledby="note-add-modal" aria-hidden="true" method="post">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New Note</h5>
+                <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <!--end of modal head-->
+            <div class="modal-body">
+                {% csrf_token %}
+                <select name="owner" id="id_owner" class="invisible">
+                    <option value="{{ user.id }}" selected>{{ user.email }}</option>
+                </select>
+                <div class="form-group row align-items-center">
+                    <label class="col-3">Title</label>
+                    {{ notes_form.name }}
+                </div>
+                <div class="form-group row">
+                    <label class="col-3">Text</label>
+                    {{ notes_form.description }}
+                </div>
+            </div>
+            <!--end of modal body-->
+            <div class="modal-footer">
+                <button role="button" class="btn btn-primary" type="submit">
+                    Create Note
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

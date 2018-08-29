@@ -1,0 +1,99 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>The Advertisements</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="The Advertisements">
+        <link href="{% static '/assets/img/favicon.ico' %}" rel="icon" type="image/x-icon">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Gothic+A1" rel="stylesheet">
+        <link href="{% static '/assets/css/theme.css' %}" rel="stylesheet" type="text/css" media="all" />
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+        {% block head %}
+
+        {% endblock %}
+    </head>
+
+    <body>
+        {% block content %}
+        {% endblock %}
+        {% include 'partials/_form_project.html' %}
+        {% include 'partials/_form_notes.html' %}
+
+        <script type="text/javascript" src="{% static '/assets/js/jquery.min.js' %}"></script>
+        <script type="text/javascript" src="{% static '/assets/js/autosize.min.js' %}"></script>
+        <script type="text/javascript" src="{% static '/assets/js/popper.min.js' %}"></script>
+        <script type="text/javascript" src="{% static '/assets/js/prism.js' %}"></script>
+        <script type="text/javascript" src="{% static '/assets/js/draggable.bundle.legacy.js' %}"></script>
+        <script type="text/javascript" src="{% static '/assets/js/swap-animation.js' %}"></script>
+        <script type="text/javascript" src="{% static '/assets/js/dropzone.min.js' %}"></script>
+        <script type="text/javascript" src="{% static '/assets/js/list.min.js' %}"></script>
+        <script type="text/javascript" src="{% static '/assets/js/bootstrap.js' %}"></script>
+        <script type="text/javascript" src="{% static '/assets/js/theme.js' %}"></script>
+        <script>
+            var chatField = document.getElementById("chat-field");
+            
+            if (chatField != null) {
+                var socket = io.connect('http://localhost:3000');
+                function eventListener(event) {
+                 event.preventDefault();
+                 if (event.keyCode == 13) {
+                     // enter email
+                     const email = chatField.getAttribute("user_email");
+                     const name = chatField.getAttribute("user_name");
+                     const avatar = chatField.getAttribute("avatar");
+                     const message = chatField.value;
+
+                     socket.emit('chat', {
+                         email: email,
+                         name: name,
+                         message: message,
+                         avatar: avatar
+                     });
+
+                     chatField.value = "";
+                 }
+                }
+
+
+                socket.on('connect', function(){
+                    chatField.addEventListener('keyup', eventListener);
+                });
+
+                socket.on('disconnect', function(){
+                    chatField.removeEventListener('keyup', eventListener);
+                });
+
+                socket.on('chat', function(data){
+                    const chatList = document.getElementById('chat-list');
+                    chatList.insertAdjacentHTML('beforeend', '<div class="media chat-item">\n' +
+                        '                        <img alt="'+data.name+'" src="'+data.avatar+'" class="avatar" />\n' +
+                        '                        <div class="media-body">\n' +
+                        '                            <div class="chat-item-title">\n' +
+                        '                                <span class="chat-item-author" data-filter-by="text">'+data.name+'</span>\n' +
+                        '                                <span data-filter-by="text">Just now</span>\n' +
+                        '                            </div>\n' +
+                        '                            <div class="chat-item-body" data-filter-by="text">\n' +
+                        '                                <p>'+data.message+'</p>\n' +
+                        '\n' +
+                        '                            </div>\n' +
+                        '\n' +
+                        '                        </div>\n' +
+                        '                    </div>');
+
+                });
+            }
+
+        </script>
+
+        {% block script %}
+
+        {% endblock %}
+
+
+    </body>
+
+</html>

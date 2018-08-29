@@ -1,0 +1,35 @@
+{% load staticfiles %}
+<div class="container d-flex justify-content-center">
+    <div class="card mt-5" style="width: 25rem;">
+        <div class="card-header d-flex justify-content-center">
+            <img class="avatar avatar-lg"
+                 src="{{ user.get_avatar_url }}">
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>First name: </b>{{ user.first_name }}</li>
+            <li class="list-group-item"><b>Last name: </b>{{ user.last_name }}</li>
+            <li class="list-group-item"><b>Email: </b>{{ user.email }}</li>
+            <li class="list-group-item"><b>Status: </b>{{ user.get_role_display }}</li>
+            <li class="list-group-item"><b>Phone number: </b>{{ user.phone_number }}</li>
+            <li class="list-group-item"><b>Is approved: </b>{{ user.approved }}</li>
+            <li class="list-group-item"><b>Created at: </b>{{ user.created_at }}</li>
+            <li class="list-group-item"><b>Email verified: </b>{{ user.email_verified }}</li>
+            <li class="list-group-item d-flex justify-content-around">
+                <button class="btn btn-link" type="button">
+                    {% if user.approved %}
+                        <a href="{% url 'approve_disapprove_user' id=user.id action='disapprove' %}">Disapprove</a>
+                    {% else %}
+                        <a href="{% url 'approve_disapprove_user' id=user.id action='approve' %}">Approve</a>
+                    {% endif %}
+
+                </button>
+
+                <button class="btn btn-link" type="button"><a href="{% url 'edit_user' id=user.id %}">Edit</a></button>
+                <a href="{% url 'delete_user' id=user.id %}">
+                    <button class="btn btn-danger" type="button">Delete</button>
+                </a></li>
+        </ul>
+    </div>
+</div>
+
+

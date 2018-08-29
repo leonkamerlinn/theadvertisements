@@ -1,0 +1,64 @@
+{% load staticfiles %}
+
+
+
+<div class="tab-pane fade show active" id="projects" role="tabpanel" aria-labelledby="tasks-tab" data-filter-list="content-list-body">
+    <div class="content-list">
+        <div class="row content-list-head">
+            <div class="col-auto">
+                <h3>Groups</h3>
+                {% if user.role == 'a' %}
+                    <button class="btn btn-round" data-toggle="modal" data-target="#project-add-modal">
+                        <i class="material-icons">add</i>
+                    </button>
+                {% endif %}
+            </div>
+            <form class="col-md-auto">
+                <div class="input-group input-group-round">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="material-icons">filter_list</i>
+                        </span>
+                    </div>
+                    <input type="search" class="form-control filter-list-input" placeholder="Filter groups" aria-label="Filter Groups" aria-describedby="filter-projects">
+                </div>
+            </form>
+        </div>
+        <!--end of content list head-->
+
+
+
+        <div class="content-list-body row">
+            {% for group in groups %}
+                <div class="col-lg-6">
+                    <div class="card card-project">
+                        <div class="card-body">
+
+                            <div class="card-title">
+                                <a href="{% url 'group' id=group.id %}">
+                                    <h5 data-filter-by="text">{{ group.name }}</h5>
+                                </a>
+                            </div>
+                            <ul class="avatars">
+
+                                {% for user in group.users.all %}
+                                    <li>
+                                        <a href="{% url 'user' id=user.id %}" data-toggle="tooltip" title="{{ user.first_name }}">
+                                            <img alt="{{ user.first_name }} Tran" class="avatar" src="{{ user.get_avatar_url }}" data-filter-by="alt" />
+                                        </a>
+                                    </li>
+
+                                {% endfor %}
+                            </ul>
+                            <div class="card-meta d-flex justify-content-between">
+
+                                <span class="text-small" data-filter-by="text">{{ group.created_at }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <!--end of content list body-->
+    </div>
+</div>

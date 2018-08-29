@@ -1,0 +1,19 @@
+{% extends 'base_layout.html' %}
+{% block content %}
+    <div class="layout layout-nav-side">
+        {% include 'partials/_left_navigation.html' %}
+        <div class="main-container">
+            {% include 'partials/_top_navigation.html' %}
+            {% include 'partials/_group_container.html' %}
+            {% include 'partials/_chat.html' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+{#    <script type="text/javascript">#}
+{#        $(window).on('load',function(){#}
+{#            $('#project-add-modal').modal('show');#}
+{#        });#}
+{#    </script>#}
+{% endblock %}

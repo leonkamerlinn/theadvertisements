@@ -1,0 +1,22 @@
+{% load staticfiles %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-11 col-xl-10">
+            {% include 'partials/_page_header.html' %}
+            <hr />
+
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="tasks" role="tabpanel" aria-labelledby="tasks-tab" data-filter-list="card-list-body">
+                    <!--end of content list head-->
+                    <div class="content-list-body">
+                        {% include 'partials/_notes.html' %}
+                        <!--end of content list body-->
+                    </div>
+                    <!--end of content list-->
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

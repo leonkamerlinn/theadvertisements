@@ -1,0 +1,86 @@
+{% extends 'base_layout.html' %}
+{% block content %}
+  <div class="main-container fullscreen">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-5 col-lg-6 col-md-7">
+                    <div class="text-center">
+                        <h1 class="h2">Create account</h1>
+
+                        <form method="post">
+                            {% csrf_token %}
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    {{ form.first_name }}
+
+                                    {% if form.first_name.errors %}
+                                        <div class="alert alert-danger mt-1" role="alert">{{ form.first_name.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+
+
+                                <div class="form-group col-md-6">
+                                    {{ form.last_name }}
+
+                                    {% if form.last_name.errors %}
+                                        <div class="alert alert-danger mt-1" role="alert">{{ form.last_name.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.email }}
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                {% if form.email.errors %}
+                                    <div class="alert alert-danger mt-1" role="alert">{{ form.email.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.phone_number }}
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your phone number with anyone else.</small>
+                                {% if form.phone_number.errors %}
+                                    <div class="alert alert-danger mt-1" role="alert">{{ form.phone_number.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.password }}
+                                <small>Password must be at least 8 characters long</small>
+                                {% if form.password.errors %}
+                                    <div class="alert alert-danger mt-1" role="alert">{{ form.password.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.repeat_password }}
+
+                                {% if form.repeat_password.errors %}
+                                    <div class="alert alert-danger mt-1" role="alert">{{ form.repeat_password.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+
+                            <script src='https://www.google.com/recaptcha/api.js'></script>
+                            <div class="g-recaptcha" data-sitekey="6Lfjp2QUAAAAAIJxTjZYI2MGaZ-tiic6926vS_eM"></div>
+
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-danger mt-1" role="alert">{{ message }}</div>
+                                {% endfor %}
+                            {% endif %}
+
+
+                            <button class="btn btn-lg btn-block btn-primary mt-2" role="button" type="submit">
+                                Create account
+                            </button>
+                            <small>By clicking 'Create Account' you agree to our <a href="#">Terms of Use</a>
+                            </small>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+  </div>
+{% endblock %}
