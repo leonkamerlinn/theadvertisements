@@ -83,19 +83,17 @@ def send_confirm_email(payload, email):
 def send_reset_password_email(payload, email):
     email_token = jwt.encode({'some': 'payload'}, 'secret', algorithm='HS256')
 
-    try:
 
-        activation_link = "{}://{}:8000/reset-password/{}".format(
-            CONSTANTS.get('URL').get('PROTOCOL'),
-            CONSTANTS.get('URL').get('HOSTNAME'),
-            urllib.parse.quote_plus(email_token)
-        )
 
-        send_email({
-            'from': CONSTANTS.get('EMAIL'),
-            'to': email,
-            'subject': 'Reset password',
-            'html': get_reset_password_html(activation_link=activation_link)
-        })
-    except TypeError:
-        pass
+    activation_link = "{}://{}:8000/reset-password/{}".format(
+        CONSTANTS.get('URL').get('PROTOCOL'),
+        CONSTANTS.get('URL').get('HOSTNAME'),
+        urllib.parse.quote_plus(email_token)
+    )
+
+    send_email({
+        'from': CONSTANTS.get('EMAIL'),
+        'to': email,
+        'subject': 'Reset password',
+        'html': get_reset_password_html(activation_link=activation_link)
+    })
