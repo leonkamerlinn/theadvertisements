@@ -88,9 +88,12 @@ def send_reset_password_email(payload, email):
         urllib.parse.quote_plus(email_token)
     )
 
-    send_email({
-        'from': CONSTANTS.get('EMAIL'),
-        'to': email,
-        'subject': 'Reset password',
-        'html': get_reset_password_html(activation_link=activation_link)
-    })
+    try:
+        send_email({
+            'from': CONSTANTS.get('EMAIL'),
+            'to': email,
+            'subject': 'Reset password',
+            'html': get_reset_password_html(activation_link=activation_link)
+        })
+    except TypeError:
+        pass
