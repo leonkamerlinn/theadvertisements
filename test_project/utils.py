@@ -81,7 +81,7 @@ def send_confirm_email(payload, email):
 
 
 def send_reset_password_email(payload, email):
-    email_token = jwt.encode({'payload': payload}, CONSTANTS.get('JWT_SECRET', 'hello'), algorithm='HS256')
+    email_token = jwt.encode({'some': 'payload'}, 'secret', algorithm='HS256')
 
     try:
 
