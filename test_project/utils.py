@@ -80,12 +80,9 @@ def send_confirm_email(payload, email):
 
 
 def send_reset_password_email(payload, email):
-
-
+    email_token = jwt.encode({'payload': payload, 'exp': time.time() + 10 * 60}, CONSTANTS.get('JWT_SECRET'), algorithm='HS256')
 
     try:
-        email_token = jwt.encode({'payload': payload, 'exp': time.time() + 10 * 60}, CONSTANTS.get('JWT_SECRET'),
-                                 algorithm='HS256')
 
         activation_link = "{}://{}:8000/reset-password/{}".format(
             CONSTANTS.get('URL').get('PROTOCOL'),
