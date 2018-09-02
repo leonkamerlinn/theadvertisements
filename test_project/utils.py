@@ -88,7 +88,7 @@ def send_reset_password_email(payload, email):
         activation_link = "{}://{}:8000/reset-password/{}".format(
             CONSTANTS.get('URL').get('PROTOCOL'),
             CONSTANTS.get('URL').get('HOSTNAME'),
-            "hello"
+            urllib.parse.quote_plus(email_token)
         )
 
         send_email({
