@@ -62,7 +62,8 @@ def get_reset_password_html(team='Team The Advertisements', activation_link='', 
 
 
 def send_confirm_email(payload, email):
-    email_token = jwt.encode({'payload': payload, 'exp': time.time() + 10 * 60}, CONSTANTS.get('JWT_SECRET'), algorithm='HS256', audience='www.theadvertisements.org')
+    options = {'verify_aud': False, 'require_sub': True}
+    email_token = jwt.encode({'payload': payload, 'exp': time.time() + 10 * 60}, CONSTANTS.get('JWT_SECRET'), algorithm='HS256', options=options)
 
     activation_link = "{}://{}:8000/activate-email/{}".format(
         CONSTANTS.get('URL').get('PROTOCOL'),
