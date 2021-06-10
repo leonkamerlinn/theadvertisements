@@ -9,7 +9,7 @@ chardet==3.0.4
 click==6.7
 constantly==15.1.0
 cryptography==2.3
-Django==2.1
+Django==2.2.24
 django-recaptcha2==1.0.3
 django-socket-server==0.0.4
 Flask==1.0.2
